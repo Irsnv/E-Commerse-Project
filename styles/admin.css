@@ -1,0 +1,4 @@
+.col-md-4 {
+    width: 33.33%; /* Makes each column take 1/3 of the container */
+    padding: 15px; /* Adds spacing inside */
+}

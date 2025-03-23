@@ -1,0 +1,279 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #141212;
+    padding: 0px 8px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo & Brand Name */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #d5383b !important;
+}
+
+/* Navbar Links */
+.navbar-nav .nav-item {
+    margin-right: 15px;
+}
+
+.navbar-nav .nav-link {
+    color: #ddd !important;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #d5383b !important;
+}
+
+/* Search & Admin Buttons */
+.navbar .nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 200px;
+}
+
+.navbar .btn {
+    border-radius: 20px;
+    background: #d5383b;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 0.2s ease-in-out;
+}
+
+.navbar .btn:hover {
+    background: #e04b55;
+}
+
+/* Dropdown Styling */
+.dropdown-menu {
+    background-color: #222;
+    border: none;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-item {
+    color: #ddd !important;
+    font-size: 1rem;
+    transition: background 0.2s ease-in-out;
+}
+
+.dropdown-item:hover {
+    background: #d5383b;
+    color: white !important;
+}
+.content-index {
+    background-color: #f5f5f5;
+}
+.content-index h2 {
+    margin-top: 40px;
+}
+.category-features {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.category-features label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.category-features select {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.category-features select:hover {
+    border-color: #555;
+}
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.product-box {
+    background-color: #424141;
+    width: 405px;
+    text-align: center;
+    border: 1px solid #444444;
+    border-radius: 20px;
+    padding: 15px;
+    margin-bottom: 40px;
+    box-shadow: 2px 6px 15px rgba(255, 255, 255, 0.07), 
+               0px 2px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.1s ease-in-out;
+}
+.product-box:hover {
+    transform: scale(1.01);
+}
+/* Product Name & Price */
+.product-box h5 {
+    color: #e75f2e; /* Red Title */
+    font-size: 18px;
+    margin: 10px 0;
+    font-family: 'Tenor Sans', sans-serif; /* A strong, modern font */
+    text-transform: uppercase;
+}
+.product-box span {
+    color: #ffffff; /* White Text for Description */
+}
+
+/* Stock Info */
+.product-box span strong {
+    color: #e75f2e; /* Yellow Highlight */
+}
+
+/* Add to Cart Button */
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #d5383b; /* Red Background */
+    color: #F5FFFA; /* White Text */
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background 0.5s ease-in-out;
+}
+
+/* Hover Effect */
+.btn:hover {
+    background-color: #b52a2d; /* Darker Red on Hover */
+    transform: scale(1.05);
+}
+/* Footer Styling */
+.footer {
+    background-color: #000; /* Black background */
+    padding: 40px 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: white;
+    font-size: 15px;
+}
+
+.footer-column {
+    width: 22%;
+}
+
+.footer-column h4 {
+    color: #d5383b;
+    font-size: 23px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin: 8px 0;
+}
+
+.footer-column ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-column ul li a:hover {
+    text-decoration: underline;
+}
+
+/* MY STORE Section */
+.footer-column.my-store address {
+    font-size: 15px;
+    line-height: 1.6;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.footer-column.my-store address strong {
+    color: #d5383b;
+}
+
+.footer-column.my-store a.btn-link {
+    display: inline-block;
+    background-color: #d5383b;
+    color: rgb(255, 255, 255);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    text-decoration: none;
+    margin-top: 5px;
+}
+
+.footer-column.my-store a.btn-link:hover {
+    background-color: #d5383b;
+    color: rgb(0, 0, 0);
+}
+
+/* Social Media Links */
+.follow-us {
+    margin-top: 10px;
+}
+
+.follow-us span {
+    color: #d5383b;
+    font-weight: 130;
+}
+
+.follow-us a {
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    margin: 5px 0;
+}
+
+.follow-us a img {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+}
+
+.follow-us a:hover {
+    text-decoration: underline;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    text-align: center;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    font-size: 12px;
+}
+.by-Irsan {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
