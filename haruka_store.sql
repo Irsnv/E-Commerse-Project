@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 23, 2025 at 01:14 AM
+-- Generation Time: Mar 25, 2025 at 04:20 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -52,8 +52,17 @@ CREATE TABLE `exhibitions` (
   `exhibition_location` varchar(255) NOT NULL,
   `exhibition_dates` varchar(255) NOT NULL,
   `exhibition_description` text NOT NULL,
-  `exhibition_image` longblob NOT NULL
+  `exhibition_image` longblob NOT NULL,
+  `exhibition_link` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `exhibitions`
+--
+
+INSERT INTO `exhibitions` (`exhibition_id`, `exhibition_title`, `exhibition_location`, `exhibition_dates`, `exhibition_description`, `exhibition_image`, `exhibition_link`) VALUES
+(1, 'Ceremonies Out of the Air: Ralph Lemon', 'MoMA PS1, New York', 'November 14, 2024 – March 24, 2025', 'A thought-provoking exhibition by artist Ralph Lemon, featuring multimedia installations, video works, and sound compositions.', 0x7468756d622e6a7067, 'https://www.momaps1.org/en/programs/377-ceremonies-out-of-the-air-ralph-lemon'),
+(4, 'Van Gogh: The Immersive Experience', 'New York, USA', 'March 1, 2025 – August 30, 2025', 'A 360-degree digital art exhibition showcasing the works of Vincent van Gogh with immersive projections, VR experiences, and interactive elements.', 0x32652e77656270, 'https://vangoghexpo.com/worcester/');
 
 -- --------------------------------------------------------
 
@@ -106,7 +115,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `exhibitions`
 --
 ALTER TABLE `exhibitions`
-  MODIFY `exhibition_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `exhibition_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `product`
