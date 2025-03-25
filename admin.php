@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Haruka Yume Store</title>
+    <title>Admin Page</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" 
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
@@ -67,6 +67,7 @@
             </div>
         </nav>
 
+        <div class="manage-product">
             <h2 class="text-center mb-4">Manage Products</h2>
                 
                 <div class="row">
@@ -226,6 +227,7 @@
                 }
                 
 
+
                 // Handle Delete Product
                 if (isset($_POST["delete_product"])) {
                     $deleteProductId = $_POST["delete_product_id"];
@@ -234,6 +236,189 @@
                 }
                 ?>
         </div>
+
+
+
+        <hr>
+
+        <div class="manage-exhibitions">
+            <h2 class="text-center mb-4">Manage Exhibitions</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3>Add Exhibition</h3>
+                            <form method="post" action="" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="exhibition_title">Exhibition Title:</label>
+                                    <input type="text" class="form-control" name="exhibition_title" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exhibition_location">Exhibition Location:</label>
+                                    <input type="text" class="form-control" name="exhibition_location" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exhibition_dates">Exhibition Dates:</label>
+                                    <input type="text" class="form-control" name="exhibition_dates" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exhibition_description">Exhibition Description:</label>
+                                    <textarea class="form-control" name="exhibition_description" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exhibition_image">Upload Image:</label>
+                                    <input type="file" class="form-control-file" name="exhibition_image" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exhibition_link">Exhibition Link:</label>
+                                    <input type="text" class="form-control" name="exhibition_link" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary" name="add_exhibition">Add Exhibition</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3>Update Exhibition</h3>
+                            <form method="post" action="">
+                                <div class="form-group">
+                                    <label for="exhibition_id">Select Exhibition:</label>
+                                    <select class="form-control" name="exhibition_id" required>
+                                        <?php
+                                        include 'db_connect.php'; // Include database connection
+                                        $sql = "SELECT exhibition_id, exhibition_title FROM exhibitions"; // Query to get exhibitions
+                                        $result = $conn->query($sql);
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo "<option value='{$row['exhibition_id']}'>{$row['exhibition_title']}</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="new_title">New Exhibition Title:</label>
+                                    <input type="text" class="form-control" name="new_title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="new_location">New Exhibition Location:</label>
+                                    <input type="text" class="form-control" name="new_location">
+                                </div>
+                                <div class="form-group">
+                                    <label for="new_dates">New Exhibition Dates:</label>
+                                    <input type="text" class="form-control" name="new_dates">
+                                </div>
+                                <div class="form-group">
+                                    <label for="new_description">New Exhibition Description:</label>
+                                    <textarea class="form-control" name="new_description"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="new_image">New Exhibition Image:</label>
+                                    <input type="file" class="form-control-file" name="new_image">
+                                </div>
+                                <div class="form-group">
+                                    <label for="new_link">New Exhibition Link:</label>
+                                    <input type="text" class="form-control" name="new_link">
+                                </div>
+                                <button type="submit" class="btn btn-primary" name="update_exhibition">Update Exhibition</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3>Delete Exhibition</h3>
+                            <form method="post" action="">
+                                <div class="form-group">
+                                    <label for="delete_exhibition_id">Select Exhibition to Delete:</label>
+                                    <select class="form-control" name="delete_exhibition_id" required>
+                                        <?php
+                                        $result = $conn->query($sql);
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo "<option value='{$row['exhibition_id']}'>{$row['exhibition_title']}</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-danger" name="delete_exhibition">Delete Exhibition</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <?php
+            // Handle Add Exhibition
+            if (isset($_POST["add_exhibition"])) {
+                $exhibitionTitle = $_POST["exhibition_title"];
+                $exhibitionLocation = $_POST["exhibition_location"];
+                $exhibitionDates = $_POST["exhibition_dates"];
+                $exhibitionDescription = $_POST["exhibition_description"];
+                $exhibitionImage = $_FILES["exhibition_image"]["name"];
+                $exhibitionLink = $_POST["exhibition_link"];
+
+                // Move uploaded file to images directory
+                move_uploaded_file($_FILES["exhibition_image"]["tmp_name"], "images/$exhibitionImage");
+                
+                // Insert new exhibition into the database
+                $conn->query("INSERT INTO exhibitions (exhibition_title, exhibition_location, exhibition_dates, exhibition_description, exhibition_image, exhibition_link) VALUES ('$exhibitionTitle', '$exhibitionLocation', '$exhibitionDates', '$exhibitionDescription', '$exhibitionImage', '$exhibitionLink')");
+
+                echo '<div class="alert alert-success" style="text-align:center">Exhibition Added Successfully!</div>';
+            }
+
+            // Handle Update Exhibition
+            if (isset($_POST["update_exhibition"])) {
+                $exhibitionId = $_POST["exhibition_id"];
+                $newTitle = $_POST["new_title"] ?? null;
+                $newLocation = $_POST["new_location"] ?? null;
+                $newDates = $_POST["new_dates"] ?? null;
+                $newDescription = $_POST["new_description"] ?? null;
+                $newImage = $_FILES["new_image"]["name"] ?? null;
+                $newLink = $_POST["new_link"] ?? null;
+
+                $updateQuery = "UPDATE exhibitions SET";
+                $updates = [];
+
+                if (!empty($newTitle)) {
+                    $updates[] = " exhibition_title = '$newTitle'";
+                }
+                if (!empty($newLocation)) {
+                    $updates[] = " exhibition_location = '$newLocation'";
+                }
+                if (!empty($newDates)) {
+                    $updates[] = " exhibition_dates = '$newDates'";
+                }
+                if (!empty($newDescription)) {
+                    $updates[] = " exhibition_description = '$newDescription'";
+                }
+                if (!empty($newImage)) {
+                    // Move uploaded file to images directory
+                    move_uploaded_file($_FILES["new_image"]["tmp_name"], "images/$newImage");
+                    $updates[] = " exhibition_image = '$newImage'";
+                }
+                if (!empty($newLink)) {
+                    $updates[] = " exhibition_link = '$newLink'";
+                }
+
+                if (!empty($updates)) {
+                    $updateQuery .= implode(',', $updates) . " WHERE exhibition_id = $exhibitionId";
+                    $conn->query($updateQuery);
+                    echo '<div class="alert alert-success">Exhibition Updated Successfully!</div>';
+                }
+            }
+
+            // Handle Delete Exhibition
+            if (isset($_POST["delete_exhibition"])) {
+                $deleteExhibitionId = $_POST["delete_exhibition_id"];
+                $conn->query("DELETE FROM exhibitions WHERE exhibition_id = $deleteExhibitionId");
+                echo '<div class="alert alert-danger">Exhibition Deleted Successfully!</div>';
+            }
+            ?>
+        </div>
+
         <div class="footer">
             <div class="footer-column">
                 <h4>HARUKA YUME STORE</h4>
@@ -283,11 +468,11 @@
 
 
         <div class="by-Irsan">
-                <p>
-                    site by
-                    <a href="https://github.com/Irsnv"> Irsan (reference artlistings.com) </a>
-                </p>
-            </div>
+            <p>
+                site by
+                <a href="https://github.com/Irsnv"> Irsan (reference artlistings.com) </a>
+            </p>
+        </div>
         
        <!-- jQuery (must be before Bootstrap JS) -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
