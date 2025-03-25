@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Haruka Yume Store</title>
+    <title>Furniture</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" 
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
@@ -11,6 +11,23 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="./styles/index.css">
+    <style>
+        /* Carousel container styling */
+    #aboutCarousel {
+        max-width: 1120px; /* Set the max width */
+        margin: 0 auto; /* Center the carousel */
+        margin-top: 50px;
+    }
+
+    /* Ensures the images maintain aspect ratio */
+    #aboutCarousel .carousel-inner img {
+        width: 1120px; /* Set the width */
+        height: 470px; /* Set the height */
+        object-fit: cover; /* Ensures images cover the area without distortion */
+        border-radius: 10px; /* Optional: Adds rounded corners */
+    }
+
+    </style>
 </head>
 <body>
     <div class="container-fluid p-0">
@@ -58,6 +75,28 @@
                 </div>
             </div>
         </nav>
+
+        <!-- Bootstrap Carousel (Slideshow) -->
+        <div id="aboutCarousel" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#aboutCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#aboutCarousel" data-slide-to="1"></li>
+                <li data-target="#aboutCarousel" data-slide-to="2"></li>
+            </ol>
+
+            <!-- Slideshow Images -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="./images/slideshow1.avif" class="d-block w-100" alt="Slide 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="./images/slideshow2.avif" class="d-block w-100" alt="Slide 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="./images/slideshow3.avif" class="d-block w-100" alt="Slide 3">
+                </div>
+            </div>
 
         <div class="content-furniture">
             <h2 style="text-align: center; margin-top: 40px; margin-bottom: 20px;">FURNITURE COLLECTION</h2>
