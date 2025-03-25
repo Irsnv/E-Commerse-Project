@@ -11,6 +11,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="./styles/index.css">
+    <link rel="stylesheet" href="./styles/exhibition.css">
 </head>
 <body>
     <div class="container-fluid p-0">
@@ -60,25 +61,29 @@
         </nav>
 
         <div class="content-exhibitions">
-            <div class="container mt-4">
-                <div class="card mb-3" style="max-width: 800px;">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <img src="exhibition-image.jpg" class="img-fluid rounded-start" alt="Exhibition Image" style="aspect-ratio: 4/3; object-fit: cover;">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">Manet/Degas</h5>
-                                <p class="card-text"><strong>Location:</strong> The Metropolitan Museum of Art, New York</p>
-                                <p class="card-text"><strong>Dates:</strong> September 24, 2023 – January 7, 2024</p>
-                                <p class="card-text"><strong>Description:</strong> A deep dive into the relationship and rivalry between 19th-century French artists Édouard Manet and Edgar Degas.</p>
-                                <a href="https://www.metmuseum.org" class="btn btn-primary" target="_blank">Learn More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php
+            include 'db_connect.php'; // Include database connection
+            $sql = "SELECT * FROM exhibitions"; // Query to get exhibitions
+            $result = $conn->query($sql);
+            
+            while ($row = $result->fetch_assoc()) {
+                echo '<div class="exhibition-box">';
+                    echo '<div class="exhibition-image">';
+                        echo '<img src="images/' . $row['exhibition_image'] . '" alt="' . $row['exhibition_title'] . '">';
+                    echo '</div>'; // End of .exhibition-image
+                    echo '<div class="exhibition-details">';
+                        echo '<h3>' . $row['exhibition_title'] . '</h3>';
+                        echo '<p><strong>Location:</strong> ' . $row['exhibition_location'] . '</p>';
+                        echo '<p><strong>Dates:</strong> ' . $row['exhibition_dates'] . '</p>';
+                        echo '<p><strong>Description:</strong> ' . $row['exhibition_description'] . '</p>';
+                        echo '<div class="link"><a href="' . $row['exhibition_link'] . '" target="_blank">More Info</a></div>';
+                    echo '</div>'; // End of .exhibition-details
+                echo '</div>'; // End of .exhibition-box
+
+            }
+            ?>
         </div>
+
 
         <div class="footer">
             <div class="footer-column">
@@ -128,11 +133,11 @@
         </div>
 
         <div class="by-Irsan">
-                <p>
-                    site by
-                    <a href="https://github.com/Irsnv"> Irsan (reference artlistings.com) </a>
-                </p>
-            </div>
+            <p>
+                site by
+                <a href="https://github.com/Irsnv"> Irsan (reference artlistings.com) </a>
+            </p>
+        </div>
         
         <!-- jQuery (must be before Bootstrap JS) -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
