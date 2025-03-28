@@ -38,7 +38,6 @@
                                 <a class="dropdown-item" href="sculpture.php">Sculpture</a>
                             </div>
                         </li>
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                                 More
@@ -52,35 +51,42 @@
                         </li>
                     </ul>
                 </div>
-                <div class="nav-buttons">
-                    <form class="form-inline">
-                        <a class="btn btn-outline-light" href="login_page.php">Admin</a>
-                    </form>
+                
+                <!-- Cart Icon Button -->
+                <div class="nav-buttons d-flex align-items-center">
+                    <a href="cart.php" class="btn btn-warning me-2">
+                        <img src="./images/add-cart.png" alt="Cart" width="24">
+                    </a>
+                    <a class="btn btn-outline-light" href="login_page.php">Admin</a>
                 </div>
             </div>
         </nav>
+    </div>
 
         <div class="content-exhibitions">
             <?php
-            include 'db_connect.php'; // Include database connection
-            $sql = "SELECT * FROM exhibitions"; // Query to get exhibitions
-            $result = $conn->query($sql);
-            
-            while ($row = $result->fetch_assoc()) {
-                echo '<div class="exhibition-box">';
-                    echo '<div class="exhibition-image">';
-                        echo '<img src="images/' . $row['exhibition_image'] . '" alt="' . $row['exhibition_title'] . '">';
-                    echo '</div>'; // End of .exhibition-image
-                    echo '<div class="exhibition-details">';
-                        echo '<h3>' . $row['exhibition_title'] . '</h3>';
-                        echo '<p><strong>Location:</strong> ' . $row['exhibition_location'] . '</p>';
-                        echo '<p><strong>Dates:</strong> ' . $row['exhibition_dates'] . '</p>';
-                        echo '<p><strong>Description:</strong> ' . $row['exhibition_description'] . '</p>';
-                        echo '<div class="link"><a href="' . $row['exhibition_link'] . '" target="_blank">More Info</a></div>';
-                    echo '</div>'; // End of .exhibition-details
-                echo '</div>'; // End of .exhibition-box
+                include 'db_connect.php';
+                $sql = "SELECT * FROM exhibitions"; // query to get exhibitions
+                $result = $conn->query($sql);
+                //loop through each exhibition record and display it
+                while ($row = $result->fetch_assoc()) {
+                    echo '<div class="exhibition-box">';
+                    //display exhibition image
+                        echo '<div class="exhibition-image">';
+                            echo '<img src="images/' . $row['exhibition_image'] . '" alt="' . $row['exhibition_title'] . '">';
+                        echo '</div>';
+                        //display exhibition details
+                        echo '<div class="exhibition-details">';
+                            echo '<h3>' . $row['exhibition_title'] . '</h3>';
+                            echo '<p><strong>Location:</strong> ' . $row['exhibition_location'] . '</p>';
+                            echo '<p><strong>Dates:</strong> ' . $row['exhibition_dates'] . '</p>';
+                            echo '<p><strong>Description:</strong> ' . $row['exhibition_description'] . '</p>';
+                            // display another link for more details which will directed to the website
+                            echo '<div class="link"><a href="' . $row['exhibition_link'] . '" target="_blank">More Info</a></div>';
+                        echo '</div>';
+                    echo '</div>';
 
-            }
+                }
             ?>
         </div>
 
