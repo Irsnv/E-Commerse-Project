@@ -13,13 +13,12 @@
     <!-- Import Tenor Sans & Lexend from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Lexend:wght@300;400;700&display=swap" rel="stylesheet">
 
-
     <link rel="stylesheet" href="./styles/index.css">
     <link rel="stylesheet" href="./styles/about_us.css">
 </head>
 <body>
     <div class="container-fluid p-0">
-        <!-- Navbar -->
+        <!-- navbar -->
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <img src="./images/logo.png" alt="logo" width="100">
@@ -42,7 +41,6 @@
                                 <a class="dropdown-item" href="sculpture.php">Sculpture</a>
                             </div>
                         </li>
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                                 More
@@ -56,14 +54,17 @@
                         </li>
                     </ul>
                 </div>
-                <div class="nav-buttons">
-                    <form class="form-inline">
-                        <a class="btn btn-outline-light" href="login_page.php">Admin</a>
-                    </form>
+                
+                <!-- Cart Icon Button -->
+                <div class="nav-buttons d-flex align-items-center">
+                    <a href="cart.php" class="btn btn-warning me-2">
+                        <img src="./images/add-cart.png" alt="Cart" width="24">
+                    </a>
+                    <a class="btn btn-outline-light" href="login_page.php">Admin</a>
                 </div>
             </div>
         </nav>
-
+    </div>
         <div class="content-about-us container mt-5">
             <div class="content-about-us2">
                 <h2 class="text-center">About Haruka Yume Store</h2>
@@ -109,6 +110,12 @@
 
                 <div class="text-center mt-5">
                     <a href="contact_us.php" class="btn btn-dark">Contact Us</a>
+                </div>
+
+                <div class="text-center mt-4">
+                    <iframe width="800" height="450" controls src="./images/videoProject - Made with Clipchamp.mp4" 
+                        title="Haruka Yume Store Showcase" frameborder="0" allowfullscreen>
+                    </iframe>
                 </div>
             </div>
         </div>
