@@ -12,19 +12,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="./styles/index.css">
     <style>
-        /* Carousel container styling */
+      
     #aboutCarousel {
-        max-width: 1120px; /* Set the max width */
-        margin: 0 auto; /* Center the carousel */
+        max-width: 1120px;
+        margin: 0 auto; 
         margin-top: 50px;
     }
 
-    /* Ensures the images maintain aspect ratio */
     #aboutCarousel .carousel-inner img {
-        width: 1120px; /* Set the width */
-        height: 470px; /* Set the height */
-        object-fit: cover; /* Ensures images cover the area without distortion */
-        border-radius: 10px; /* Optional: Adds rounded corners */
+        width: 1120px; 
+        height: 470px;
+        object-fit: cover;
+        border-radius: 10px; 
     }
 
     </style>
@@ -54,7 +53,6 @@
                                 <a class="dropdown-item" href="sculpture.php">Sculpture</a>
                             </div>
                         </li>
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                                 More
@@ -68,13 +66,49 @@
                         </li>
                     </ul>
                 </div>
-                <div class="nav-buttons">
-                    <form class="form-inline">
-                        <a class="btn btn-outline-light" href="login_page.php">Admin</a>
-                    </form>
+                
+                <!-- Cart Icon Button -->
+                <div class="nav-buttons d-flex align-items-center">
+                    <a href="cart.php" class="btn btn-warning me-2">
+                        <img src="./images/add-cart.png" alt="Cart" width="24">
+                    </a>
+                    <a class="btn btn-outline-light" href="login_page.php">Admin</a>
                 </div>
             </div>
         </nav>
+    </div>
+
+    <script>
+        // Add to Cart Button Click
+        document.addEventListener("DOMContentLoaded", function () {
+            const cart = JSON.parse(localStorage.getItem("cart")) || []; // Load cart
+
+            document.querySelectorAll(".add-to-cart").forEach(button => {
+                button.addEventListener("click", function () {
+                    const product = {
+                        id: this.getAttribute("data-id"),
+                        name: this.getAttribute("data-name"),
+                        price: this.getAttribute("data-price"),
+                        image: this.getAttribute("data-image"),
+                        quantity: 1
+                    };
+
+                    // Check if product already exists in cart
+                    const existingProduct = cart.find(item => item.id === product.id);
+                    if (existingProduct) {
+                        existingProduct.quantity++;
+                    } else {
+                        cart.push(product);
+                    }
+
+                    // Save cart to localStorage
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    alert("Added to Cart!");
+                });
+            });
+        });
+    </script>
+
 
         <!-- Bootstrap Carousel (Slideshow) -->
         <div id="aboutCarousel" class="carousel slide" data-ride="carousel">
@@ -85,7 +119,7 @@
                 <li data-target="#aboutCarousel" data-slide-to="2"></li>
             </ol>
 
-            <!-- Slideshow Images -->
+            <!-- slideshow Images -->
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <img src="./images/slideshow1.avif" class="d-block w-100" alt="Slide 1">
@@ -97,6 +131,17 @@
                     <img src="./images/slideshow3.avif" class="d-block w-100" alt="Slide 3">
                 </div>
             </div>
+
+            <!-- Controls (Prev/Next Buttons) -->
+            <a class="carousel-control-prev" href="#aboutCarousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#aboutCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
 
         <div class="content-furniture">
             <h2 style="text-align: center; margin-top: 40px; margin-bottom: 20px;">FURNITURE COLLECTION</h2>
@@ -114,29 +159,39 @@
 
             <div id="product-list" class="product-list">
                 <?php
-                include 'db_connect.php'; // Database connection
+                    include 'db_connect.php';
 
-                // Default SQL query to show only furniture products
-                $sql = "SELECT * FROM product WHERE product_category = 'Furniture'";
+                    //fetch SQL query to show only furniture products
+                    $sql = "SELECT * FROM product WHERE product_category = 'Furniture'";
 
-                $result = $conn->query($sql);
+                    $result = $conn->query($sql);
 
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo '
-                            <div class="product-box">
-                                <img src="images/' . $row['product_image'] . '" alt="' . $row['product_name'] . '" style="width: 250px; height: 250px; object-fit: cover;border-radius: 20px">
-                                <h5>' . $row['product_name'] . '</h5>
-                                <span class="card-text">' . $row['product_description'] . '</span><br>
-                                <span><strong>Category:</strong> ' . $row['product_category'] . '</span><br>
-                                <span><strong>Price:</strong> RM ' . $row['product_price'] . '</span><br>
-                                <span><strong>Stock:</strong> ' . (isset($row['product_stock']) ? $row['product_stock'] : 'Out of stock') . '</span><br>
-                                <a href="order.php?product_id=' . $row['product_id'] . '" class="btn">Place Order</a>
-                            </div>';
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo '
+                                <div class="product-box">
+                                    <img src="images/' . $row['product_image'] . '" alt="' . $row['product_name'] . '" style="width: 250px; height: 250px; object-fit: cover; border-radius: 20px;">
+                                    <h5>' . $row['product_name'] . '</h5>
+                                    <span class="card-text">' . $row['product_description'] . '</span><br>
+                                    <span><strong>Category:</strong> ' . $row['product_category'] . '</span><br>
+                                    <span><strong>Price:</strong> RM ' . $row['product_price'] . '</span><br>
+                                    <span><strong>Stock:</strong> ' . ($row['product_stock'] > 0 ? $row['product_stock'] : '<span style="color:red;">Out of stock</span>') . '</span><br>';
+                            // show add to cart button if the product has astock
+                            if ($row['product_stock'] > 0) {
+                                echo '
+                                    <form method="post" action="cart.php">
+                                        <input type="hidden" name="product_id" value="' . $row['product_id'] . '">
+                                        <input type="hidden" name="quantity" value="1">
+                                        <button type="submit" name="add_to_cart" class="btn btn-primary">Add to Cart</button>
+                                    </form>';
+                            } else {
+                                // disabled button if out of stock
+                                echo '<button class="btn btn-secondary" disabled>Out of Stock</button>';
+                            }
+
+                            echo '</div>';
+                        }
                     }
-                } else {
-                    echo "<p style='text-align:center; width:100%;'>No products found in this category.</p>";
-                }
                 ?>
             </div>
         </div>
@@ -144,12 +199,12 @@
         <script>
             function redirectToCategory(category) {
                 if (category) {
-                    window.location.href = category; // Redirect to selected category page
+                    window.location.href = category;
                 }
             }
         </script>
 
-<div class="footer">
+        <div class="footer">
             <div class="footer-column">
                 <h4>HARUKA YUME STORE</h4>
                 <ul>
