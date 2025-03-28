@@ -212,7 +212,6 @@
                                 <a class="dropdown-item" href="sculpture.php">Sculpture</a>
                             </div>
                         </li>
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                                 More
@@ -226,13 +225,17 @@
                         </li>
                     </ul>
                 </div>
-                <div class="nav-buttons">
-                    <form class="form-inline">
-                        <a class="btn btn-outline-light" href="login_page.php">Admin</a>
-                    </form>
+                
+                <!-- Cart Icon Button -->
+                <div class="nav-buttons d-flex align-items-center">
+                    <a href="cart.php" class="btn btn-warning me-2">
+                        <img src="./images/add-cart.png" alt="Cart" width="24">
+                    </a>
+                    <a class="btn btn-outline-light" href="login_page.php">Admin</a>
                 </div>
             </div>
         </nav>
+    </div>
 
         <div class="container-contact-us">
             <span class="big-circle"></span>
