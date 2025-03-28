@@ -1,0 +1,74 @@
+/* General Page Styles */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #cd4e20, #331a07);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Login Container */
+.container {
+    background: rgb(20, 20, 20);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 350px;
+}
+
+/* Title */
+h2 {
+    font-size: 24px;
+    color: #df1a1a;
+    margin-bottom: 20px;
+}
+
+/* Form Styling */
+.form-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+}
+
+/* Login Button */
+.btn {
+    background: #db6334;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #8f2621;
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+    .container {
+        width: 90%;
+    }
+}
