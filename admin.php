@@ -1,3 +1,11 @@
+<?php 
+session_start();
+if (!isset($_SESSION['role'])) {
+    header("Location: login_page.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,7 +53,6 @@
                                 <a class="dropdown-item" href="sculpture.php">Sculpture</a>
                             </div>
                         </li>
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                                 More
@@ -59,21 +66,42 @@
                         </li>
                     </ul>
                 </div>
-                <div class="nav-buttons">
-                    <form class="form-inline">
-                        <a class="btn btn-outline-light" href="login_page.php">Admin</a>
-                    </form>
+                <!-- Cart Icon and Admin Button -->
+                <div class="nav-buttons d-flex align-items-center">
+                    <a href="cart.php" class="btn btn-warning me-2">
+                        <img src="./images/add-cart.png" alt="Cart" width="24">
+                    </a>
+                    <a class="btn btn-outline-light" href="login_page.php">Admin</a>
                 </div>
+
             </div>
         </nav>
+    </div>
+    
+    <!-- manager and admin -->
+    <div class="container-section-admin text-center my-4">
+
+        <div class="d-flex justify-content-center gap-3">
+            <h2>Welcome, <?php echo $_SESSION['name']; ?>!</h2>
+        </div>
+        <div class="container-section-divider">
+        <p>You are logged in as <strong><?php echo ucfirst($_SESSION['role']); ?></strong>.</p>
+            <?php if ($_SESSION['role'] == 'admin') : ?>
+                    <a href="register.php" class="btn">Register New User</a>
+                <?php endif; ?>
+                <a href="history.php" class="btn history-btn">View All Report</a>
+                <a href="logout_page.php" class="btn logout-btn">Logout</a>
+        </div>
+    </div>
+
 
         <div class="manage-product">
             <h2 class="text-center mb-4">Manage Products</h2>
-                
                 <div class="row">
+
+                    <!-- handle add product -->
                     <div class="col-md-4">
                         <div class="card text-center">
-
                             <div class="card-body">
                                 <h3>Add Product</h3>
                                 <form method="post" action="" enctype="multipart/form-data">
@@ -112,6 +140,7 @@
                         </div>
                     </div>
 
+                    <!-- handle update product -->
                     <div class="col-md-4">
                         <div class="card text-center">
                             <div class="card-body">
@@ -121,9 +150,10 @@
                                         <label for="product_id">Select Product:</label>
                                         <select class="form-control" name="product_id" required>
                                             <?php
-                                            include 'db_connect.php'; // Include database connection
-                                            $sql = "SELECT product_id, product_name FROM product"; // Query to get products
+                                            include 'db_connect.php';
+                                            $sql = "SELECT product_id, product_name FROM product"; 
                                             $result = $conn->query($sql);
+                                            // Loops through all products to show all product
                                             while ($row = $result->fetch_assoc()) {
                                                 echo "<option value='{$row['product_id']}'>{$row['product_name']}</option>";
                                             }
@@ -152,10 +182,9 @@
                         </div>
                     </div>
 
-
+                    <!-- handle delete product -->
                     <div class="col-md-4">
                         <div class="card text-center">
-
                             <div class="card-body">
                                 <h3>Delete Product</h3>
                                 <form method="post" action="">
@@ -178,34 +207,46 @@
                 </div>
 
                 <?php
-                // Handle Add Product
-                if (isset($_POST["add_product"])) {
-                    $productName = $_POST["product_name"];
-                    $productPrice = $_POST["product_price"];
-                    $productCategory = $_POST["product_category"];
-                    $productDescription = $_POST["product_description"];
-                    $productStock = $_POST["product_stock"];
-                    $productImage = $_FILES["product_image"]["name"];
+                    // handle ddd product
+                    if (isset($_POST["add_product"])) { // check if the add product button was clicked
+                        //get all info product from the form
+                        $productName = $_POST["product_name"];
+                        $productPrice = $_POST["product_price"];
+                        $productCategory = $_POST["product_category"];
+                        $productDescription = $_POST["product_description"];
+                        $productStock = $_POST["product_stock"];
+                        $productImage = $_FILES["product_image"]["name"];
 
-                    // Move uploaded file to images directory
-                    move_uploaded_file($_FILES["product_image"]["tmp_name"], "images/$productImage");
-                    
-                    // Insert new product into the database
-                    $conn->query("INSERT INTO product (product_name, product_price, product_category, product_description, product_stock, product_image) VALUES ('$productName', '$productPrice', '$productCategory', '$productDescription', '$productStock', '$productImage')");
+                        // Move uploaded file to images directory
+                        move_uploaded_file($_FILES["product_image"]["tmp_name"], "images/$productImage");
+                        
+                        // Insert new product into the database
+                        // escape special characters to prevent SQL injection
+                        $productName = $conn->real_escape_string($productName);
+                        $productPrice = $conn->real_escape_string($productPrice);
+                        $productCategory = $conn->real_escape_string($productCategory);
+                        $productDescription = $conn->real_escape_string($productDescription);
+                        $productStock = $conn->real_escape_string($productStock);
+                        $productImage = $conn->real_escape_string($productImage);
+                        // insert new product into the database
+                        $conn->query("INSERT INTO product (product_name, product_price, product_category, product_description, product_stock, product_image) 
+                                            VALUES ('$productName', '$productPrice', '$productCategory', '$productDescription', '$productStock', '$productImage')");
 
-                    echo '<div class="alert alert-success" style="text-align:center">Product Added Successfully!</div>';
+                        echo '<div class="alert alert-success" style="text-align:center">Product Added Successfully!</div>';
                 }
 
-                if (isset($_POST["update_product"])) {
+                // handle update product
+                if (isset($_POST["update_product"])) {//check if the update button was clicked
+                    //get new product details (null "if provided)")
                     $productId = $_POST["product_id"];
                     $newName = $_POST["new_name"] ?? null;
                     $newStock = $_POST["new_stock"] ?? null;
                     $newDescription = $_POST["new_description"] ?? null;
                     $newPrice = $_POST["new_price"] ?? null;
-                
-                    $updateQuery = "UPDATE product SET";
-                    $updates = [];
-                
+                    //inser the new product details into the database
+                    $updateQuery = "UPDATE product SET"; //start query
+                    $updates = []; //to store an array
+                    // get new info to update only if they have new values
                     if (!empty($newName)) {
                         $updates[] = " product_name = '$newName'";
                     }
@@ -218,26 +259,22 @@
                     if (!empty($newPrice)) {
                         $updates[] = " product_price = $newPrice";
                     }
-                
+                    //check
                     if (!empty($updates)) {
-                        $updateQuery .= implode(',', $updates) . " WHERE product_id = $productId";
+                        $updateQuery .= implode(',', $updates) . " WHERE product_id = $productId";//combine updates into query
                         $conn->query($updateQuery);
                         echo '<div class="alert alert-success">Product Updated Successfully!</div>';
                     }
                 }
                 
-
-
-                // Handle Delete Product
-                if (isset($_POST["delete_product"])) {
-                    $deleteProductId = $_POST["delete_product_id"];
+                // handle delete product
+                if (isset($_POST["delete_product"])) {//check if the delete button was clicked
+                    $deleteProductId = $_POST["delete_product_id"]; //get the selected product based on their id
                     $conn->query("DELETE FROM product WHERE product_id = $deleteProductId");
                     echo '<div class="alert alert-danger">Product Deleted Successfully!</div>';
                 }
-                ?>
+            ?>
         </div>
-
-
 
         <hr>
 
@@ -245,6 +282,7 @@
             <h2 class="text-center mb-4">Manage Exhibitions</h2>
             <div class="row">
                 <div class="col-md-4">
+                    <!-- handle add exhibition -->
                     <div class="card text-center">
                         <div class="card-body">
                             <h3>Add Exhibition</h3>
@@ -288,8 +326,8 @@
                                     <label for="exhibition_id">Select Exhibition:</label>
                                     <select class="form-control" name="exhibition_id" required>
                                         <?php
-                                        include 'db_connect.php'; // Include database connection
-                                        $sql = "SELECT exhibition_id, exhibition_title FROM exhibitions"; // Query to get exhibitions
+                                        include 'db_connect.php';
+                                        $sql = "SELECT exhibition_id, exhibition_title FROM exhibitions";
                                         $result = $conn->query($sql);
                                         while ($row = $result->fetch_assoc()) {
                                             echo "<option value='{$row['exhibition_id']}'>{$row['exhibition_title']}</option>";
@@ -352,7 +390,8 @@
 
             <?php
             // Handle Add Exhibition
-            if (isset($_POST["add_exhibition"])) {
+            if (isset($_POST["add_exhibition"])) { //check if the "Add Exhibition" button was clicked
+                //get all info from the form
                 $exhibitionTitle = $_POST["exhibition_title"];
                 $exhibitionLocation = $_POST["exhibition_location"];
                 $exhibitionDates = $_POST["exhibition_dates"];
@@ -360,17 +399,19 @@
                 $exhibitionImage = $_FILES["exhibition_image"]["name"];
                 $exhibitionLink = $_POST["exhibition_link"];
 
-                // Move uploaded file to images directory
+                //move uploaded file to images directory
                 move_uploaded_file($_FILES["exhibition_image"]["tmp_name"], "images/$exhibitionImage");
                 
-                // Insert new exhibition into the database
-                $conn->query("INSERT INTO exhibitions (exhibition_title, exhibition_location, exhibition_dates, exhibition_description, exhibition_image, exhibition_link) VALUES ('$exhibitionTitle', '$exhibitionLocation', '$exhibitionDates', '$exhibitionDescription', '$exhibitionImage', '$exhibitionLink')");
+                //insert the new exhibition details into the database
+                $conn->query("INSERT INTO exhibitions (exhibition_title, exhibition_location, exhibition_dates, exhibition_description, exhibition_image, exhibition_link) 
+                                VALUES ('$exhibitionTitle', '$exhibitionLocation', '$exhibitionDates', '$exhibitionDescription', '$exhibitionImage', '$exhibitionLink')");
 
                 echo '<div class="alert alert-success" style="text-align:center">Exhibition Added Successfully!</div>';
             }
 
             // Handle Update Exhibition
             if (isset($_POST["update_exhibition"])) {
+                //get new exhibition details (null "if provided)")
                 $exhibitionId = $_POST["exhibition_id"];
                 $newTitle = $_POST["new_title"] ?? null;
                 $newLocation = $_POST["new_location"] ?? null;
@@ -379,9 +420,9 @@
                 $newImage = $_FILES["new_image"]["name"] ?? null;
                 $newLink = $_POST["new_link"] ?? null;
 
-                $updateQuery = "UPDATE exhibitions SET";
-                $updates = [];
-
+                $updateQuery = "UPDATE exhibitions SET"; //start query
+                $updates = [];//create an array to store updated values
+                // get new info to update only if they have new values
                 if (!empty($newTitle)) {
                     $updates[] = " exhibition_title = '$newTitle'";
                 }
@@ -395,7 +436,6 @@
                     $updates[] = " exhibition_description = '$newDescription'";
                 }
                 if (!empty($newImage)) {
-                    // Move uploaded file to images directory
                     move_uploaded_file($_FILES["new_image"]["tmp_name"], "images/$newImage");
                     $updates[] = " exhibition_image = '$newImage'";
                 }
@@ -404,21 +444,22 @@
                 }
 
                 if (!empty($updates)) {
-                    $updateQuery .= implode(',', $updates) . " WHERE exhibition_id = $exhibitionId";
+                    $updateQuery .= implode(',', $updates) . " WHERE exhibition_id = $exhibitionId"; //combine updates into query
                     $conn->query($updateQuery);
                     echo '<div class="alert alert-success">Exhibition Updated Successfully!</div>';
                 }
             }
 
             // Handle Delete Exhibition
-            if (isset($_POST["delete_exhibition"])) {
-                $deleteExhibitionId = $_POST["delete_exhibition_id"];
+            if (isset($_POST["delete_exhibition"])) {//check if the delete button was clicked
+                $deleteExhibitionId = $_POST["delete_exhibition_id"];//get the selected exhibition based on their id
                 $conn->query("DELETE FROM exhibitions WHERE exhibition_id = $deleteExhibitionId");
                 echo '<div class="alert alert-danger">Exhibition Deleted Successfully!</div>';
             }
             ?>
         </div>
-
+        
+        <!--footer section-->
         <div class="footer">
             <div class="footer-column">
                 <h4>HARUKA YUME STORE</h4>
@@ -466,7 +507,7 @@
             </div>
         </div>
 
-
+        <!--anoter footer section-->
         <div class="by-Irsan">
             <p>
                 site by
@@ -482,7 +523,3 @@
 
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
-
-    </div>
-</body>
-</html>
